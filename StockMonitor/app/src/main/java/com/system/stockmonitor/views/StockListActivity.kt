@@ -14,6 +14,7 @@ import kotlinx.android.synthetic.main.activity_stock_list.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.text.DecimalFormat
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
@@ -110,6 +111,13 @@ class StockListActivity : BaseActivity() {
 
 fun Double.toCurrency(): String =
     NumberFormat.getCurrencyInstance(Locale("pt", "BR")).format(this)
+
+fun Double.toPercentage(): String {
+    val decimalFormat = DecimalFormat()
+    decimalFormat.maximumFractionDigits = 2
+    return decimalFormat.format(this) + "%"
+}
+
 
 private fun StockData.toVO(stored: StockStored): StockVO =
     StockVO(

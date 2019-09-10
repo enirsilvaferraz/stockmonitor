@@ -9,7 +9,10 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.system.stockmonitor.R
 
-class StockAdapter(private val list: ArrayList<StockVO>, private val callback: (model: StockVO) -> Unit) :
+class StockAdapter(
+    private val list: ArrayList<StockVO>,
+    private val callback: (model: StockVO) -> Unit
+) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -45,6 +48,8 @@ class StockAdapter(private val list: ArrayList<StockVO>, private val callback: (
         private val buyValue = itemView.findViewById<AppCompatTextView>(R.id.buyValue)
         private val totalBuyValue = itemView.findViewById<AppCompatTextView>(R.id.totalBuyValue)
         private val totalValue = itemView.findViewById<AppCompatTextView>(R.id.totalValue)
+        private val diffValue = itemView.findViewById<AppCompatTextView>(R.id.diffValue)
+        private val diffUnitPercent = itemView.findViewById<AppCompatTextView>(R.id.diffUnitPercent)
 
         fun bind(model: StockVO) {
 
@@ -54,6 +59,8 @@ class StockAdapter(private val list: ArrayList<StockVO>, private val callback: (
             totalBuyValue.text = model.totalBuyValue.toCurrency()
             currentValue.text = model.currentValue.toCurrency()
             totalValue.text = model.totalCurrentValue.toCurrency()
+            diffValue.text = model.diffValue.toCurrency()
+            diffUnitPercent.text = model.diffUnitPercent().toPercentage()
 
             val color = ContextCompat.getColor(
                 itemView.context, if (model.isGrowing()) R.color.green else R.color.red
@@ -61,6 +68,8 @@ class StockAdapter(private val list: ArrayList<StockVO>, private val callback: (
 
             currentValue.setTextColor(color)
             totalValue.setTextColor(color)
+            diffValue.setTextColor(color)
+            diffUnitPercent.setTextColor(color)
 
             container.setOnLongClickListener {
                 callback(model)
