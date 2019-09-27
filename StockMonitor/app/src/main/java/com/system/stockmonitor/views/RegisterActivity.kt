@@ -44,11 +44,17 @@ class RegisterActivity : AppCompatActivity() {
 
                     GlobalScope.launch(Main) {
 
-                        val credentials = business.getCredentials()
-                        val stockInfo =
-                            business.getStockInfo(stockSymbol.text.toString(), credentials)
+                        try {
 
-                        stockName.setText(stockInfo.company_name)
+                            val credentials = business.getCredentials()
+                            val stockInfo =
+                                business.getStockInfo(stockSymbol.text.toString(), credentials)
+
+                            stockName.setText(stockInfo.company_name)
+                        } catch (e: Exception) {
+                            Toast.makeText(this@RegisterActivity, e.message, Toast.LENGTH_SHORT)
+                                .show()
+                        }
                     }
                 } else {
                     stockName.setText("")

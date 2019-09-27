@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:clickable="true">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/stockSymbol"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/buyValue"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="BBAS3" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/stockName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="8dp"
+        android:ellipsize="end"
+        android:lines="1"
+        android:textColor="#818181"
+        app:layout_constraintEnd_toStartOf="@+id/currentValue"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/stockSymbol"
+        tools:text="Banco do Brasil S.A. Banco do Brasil S.A." />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/currentValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:gravity="end"
+        android:minWidth="70dp"
+        android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@+id/stockName"
+        app:layout_constraintEnd_toStartOf="@+id/totalValue"
+        tools:text="R$ 54,00"
+        tools:textColor="#E91E63" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/buyValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:gravity="end"
+        android:minWidth="70dp"
+        app:layout_constraintBaseline_toBaselineOf="@+id/stockSymbol"
+        app:layout_constraintEnd_toStartOf="@+id/totalBuyValue"
+        tools:text="R$ 550,85" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/totalBuyValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:gravity="end"
+        android:minWidth="90dp"
+        android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@+id/buyValue"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:text="R$ 1000,00" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/totalValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:gravity="end"
+        android:minWidth="90dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buyValue"
+        tools:text="R$ 10.000,00"
+        tools:textColor="#4CAF50" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/diffValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:gravity="end"
+        android:minWidth="90dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/totalValue"
+        tools:text="R$ 900,00"
+        tools:textColor="#4CAF50" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/diffUnitPercent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:gravity="end"
+        android:minWidth="70dp"
+        android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@+id/diffValue"
+        app:layout_constraintEnd_toStartOf="@+id/diffValue"
+        tools:text="1,05%"
+        tools:textColor="#E91E63" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="#28878787"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/diffValue" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

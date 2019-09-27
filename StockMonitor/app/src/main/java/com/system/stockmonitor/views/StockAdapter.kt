@@ -8,6 +8,8 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.system.stockmonitor.R
+import com.system.stockmonitor.toCurrency
+import com.system.stockmonitor.toPercentage
 
 class StockAdapter(
     private val list: ArrayList<StockVO>,
@@ -59,7 +61,7 @@ class StockAdapter(
             totalBuyValue.text = model.totalBuyValue.toCurrency()
             currentValue.text = model.currentValue.toCurrency()
             totalValue.text = model.totalCurrentValue.toCurrency()
-            diffValue.text = model.diffValue.toCurrency()
+            diffValue.text = model.diffValue().toCurrency()
             diffUnitPercent.text = model.diffUnitPercent().toPercentage()
 
             val color = ContextCompat.getColor(
