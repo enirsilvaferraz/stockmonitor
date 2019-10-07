@@ -35,7 +35,7 @@ class StockListPresenter(
                     ).toVO(it)
                 }
 
-                view.showData(list.sumByDouble { it.totalCurrentValue }.toCurrency(), list)
+                view.showData(list.sumByDouble { it.saleValueTotal }.toCurrency(), list)
 
             } else {
                 view.showData(0.0.toCurrency(), listOf())

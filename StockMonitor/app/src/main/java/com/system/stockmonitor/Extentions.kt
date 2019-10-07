@@ -8,7 +8,7 @@ import java.text.NumberFormat
 import java.util.*
 
 fun Double.toCurrency(): String =
-    NumberFormat.getCurrencyInstance(Locale("pt", "BR")).format(this)
+    if (this == 0.0) "--" else NumberFormat.getCurrencyInstance(Locale("pt", "BR")).format(this)
 
 fun Double.toPercentage(): String {
     val decimalFormat = DecimalFormat()
@@ -18,12 +18,13 @@ fun Double.toPercentage(): String {
 
 fun StockData.toVO(stored: StockStored): StockVO =
     StockVO(
-        stored.id,
-        stored.symbol,
-        stored.name,
-        stored.buyValue,
-        stored.buyValue * stored.amount,
-        close,
-        close * stored.amount
+        id = stored.id,
+        symbol = stored.symbol,
+        name = stored.name,
+        amount = stored.amount,
+        buyValue = stored.buyValue,
+        buySuggest = stored.buySuggest,
+        saleValue = this.close,
+        saleSuggest = stored.saleSuggest
     )
 

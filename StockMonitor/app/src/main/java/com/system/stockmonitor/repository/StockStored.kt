@@ -6,6 +6,7 @@ data class StockStored(
     val symbol: String,
     val name: String,
     val buyValue: Double,
-    val amount: Int
-
+    val amount: Int,
+    val buySuggest: Double = 0.0,
+    val saleSuggest: Double = 0.0
 )

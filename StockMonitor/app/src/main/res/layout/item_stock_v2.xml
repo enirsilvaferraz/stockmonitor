@@ -58,11 +58,11 @@
         android:gravity="end"
         android:minWidth="70dp"
         app:layout_constraintBaseline_toBaselineOf="@+id/stockSymbol"
-        app:layout_constraintEnd_toStartOf="@+id/totalBuyValue"
+        app:layout_constraintEnd_toStartOf="@+id/buyValueTotal"
         tools:text="R$ 550,85" />
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/totalBuyValue"
+        android:id="@+id/buyValueTotal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"

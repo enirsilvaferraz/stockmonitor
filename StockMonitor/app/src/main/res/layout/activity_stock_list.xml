@@ -92,7 +92,7 @@
         android:clipToPadding="false"
         android:paddingBottom="90dp"
         app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-        tools:listitem="@layout/item_stock" />
+        tools:listitem="@layout/item_stock_v3" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/addButton"
