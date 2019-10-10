@@ -4,28 +4,32 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.gson.Gson
 import com.system.stockmonitor.R
-import com.system.stockmonitor.repository.ApiRepository
-import com.system.stockmonitor.repository.StockStored
-import com.system.stockmonitor.repository.StorageRepository
 import kotlinx.android.synthetic.main.activity_stock_list.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import java.util.concurrent.TimeUnit
+import org.koin.android.viewmodel.ext.android.viewModel
 
 
 class StockListActivity : BaseActivity() {
 
-    private val presenter: StockListPresenter by lazy {
-        StockListPresenter(this, ApiRepository(), StorageRepository(this))
-    }
+    private val stockViewModel: StockListViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_stock_list)
+
+        stockViewModel.stocks.observe(this, Observer {
+            (recyclerview.adapter as StockAdapter).update(it)
+        })
+
+        stockViewModel.title.observe(this, Observer {
+            accountBalanceValue.text = it
+        })
+
+        stockViewModel.inProgress.observe(this, Observer {
+            progressBar.visibility = if (it) View.VISIBLE else View.GONE
+        })
 
         addButton.setOnClickListener {
             startActivity(Intent(this, RegisterActivity::class.java))
@@ -33,44 +37,22 @@ class StockListActivity : BaseActivity() {
 
         recyclerview.layoutManager = LinearLayoutManager(this)
         recyclerview.adapter = StockAdapter(arrayListOf()) {
-
-            GlobalScope.launch(dispatcher) {
-                presenter.edit(it.id)
-            }
+            goToRegister(it.id)
         }
     }
 
     override fun onResume() {
         super.onResume()
-
-        GlobalScope.launch(dispatcher) {
-            while (true) {
-                presenter.load()
-                delay(TimeUnit.MINUTES.toMillis(1))
-            }
-        }
-    }
-
-    fun showLoading() {
-        progressBar.visibility = View.VISIBLE
-    }
-
-    fun showData(title: String, list: List<StockVO>) {
-        accountBalanceValue.text = title
-        (recyclerview.adapter as StockAdapter).update(list)
-    }
-
-    fun hideLoading() {
-        progressBar.visibility = View.GONE
+        stockViewModel.requestData()
     }
 
     fun showMessage(message: String?) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
-    fun goToRegister(stockStored: StockStored) {
+    private fun goToRegister(id: Int?) {
         val intent = Intent(this, RegisterActivity::class.java)
-        intent.putExtra("MODEL", Gson().toJson(stockStored))
+        intent.putExtra("MODEL", id)
         startActivity(intent)
     }
 }

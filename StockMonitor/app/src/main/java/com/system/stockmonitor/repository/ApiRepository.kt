@@ -39,7 +39,20 @@ class ApiRepository {
         })
     }
 
-    suspend fun getStockData(
+    suspend fun getStockUpdated(
+        stockSymbol: List<StockStored>,
+        startDate: String,
+        endDate: String,
+        credential: Credential
+    ): List<StockStored> {
+
+        return stockSymbol.map {
+            it.saleValue = getStockData(it.symbol, startDate, endDate, credential).close
+            it
+        }
+    }
+
+    private suspend fun getStockData(
         stockSymbol: String,
         startDate: String,
         endDate: String,

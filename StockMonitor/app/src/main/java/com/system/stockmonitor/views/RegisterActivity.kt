@@ -6,12 +6,14 @@ import android.text.InputFilter
 import android.text.TextWatcher
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.room.Room
 import com.google.android.material.textfield.TextInputEditText
 import com.google.gson.Gson
 import com.system.stockmonitor.R
 import com.system.stockmonitor.repository.ApiRepository
+import com.system.stockmonitor.repository.AppDatabase
+import com.system.stockmonitor.repository.StockRepository
 import com.system.stockmonitor.repository.StockStored
-import com.system.stockmonitor.repository.StorageRepository
 import kotlinx.android.synthetic.main.activity_register.*
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.GlobalScope
@@ -20,8 +22,9 @@ import kotlin.random.Random
 
 class RegisterActivity : AppCompatActivity() {
 
-    val storage: StorageRepository by lazy {
-        StorageRepository(this)
+    val storage: StockRepository by lazy {
+        Room.databaseBuilder(this, AppDatabase::class.java, "mydb").allowMainThreadQueries().build()
+            .stockStoredDao()
     }
 
     val business: ApiRepository by lazy {
@@ -78,7 +81,7 @@ class RegisterActivity : AppCompatActivity() {
 
         deleteButton.setOnClickListener {
             if (stockStored != null) {
-                storage.remove(stockStored!!.id, stockStored!!.symbol)
+                storage.delete(stockStored!!)
                 Toast.makeText(this, "Removed!", Toast.LENGTH_SHORT).show()
                 finish()
             }
@@ -101,10 +104,11 @@ class RegisterActivity : AppCompatActivity() {
                     buyValue = buyValue.text.toString().toDouble(),
                     amount = amount.text.toString().toInt(),
                     buySuggest = buySuggest.text.toString().toDouble(),
-                    saleSuggest = saleSuggest.text.toString().toDouble()
+                    saleSuggest = saleSuggest.text.toString().toDouble(),
+                    saleValue = 0.0
                 )
 
-                storage.storeStocks(stored)
+                storage.save(stored)
 
                 finish()
             }
