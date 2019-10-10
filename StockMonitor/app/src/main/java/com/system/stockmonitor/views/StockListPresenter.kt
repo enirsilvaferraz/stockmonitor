@@ -59,8 +59,9 @@ class StockListPresenter(
 
     private fun getEndDate() = SimpleDateFormat("yyyy-MM-dd'T'23:59:59", Locale.US).format(Date())
 
-    fun remove(id: Int?, symbol: String) {
-        storage.remove(id, symbol)
+    fun edit(id: Int?) {
+        val stockStored = storage.getStocks().filter { it.id == id }[0]
+        view.goToRegister(stockStored)
     }
 
 }

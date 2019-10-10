@@ -7,6 +7,7 @@ import android.text.TextWatcher
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.textfield.TextInputEditText
+import com.google.gson.Gson
 import com.system.stockmonitor.R
 import com.system.stockmonitor.repository.ApiRepository
 import com.system.stockmonitor.repository.StockStored
@@ -27,9 +28,22 @@ class RegisterActivity : AppCompatActivity() {
         ApiRepository()
     }
 
+    var stockStored: StockStored? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
+
+        if (intent.hasExtra("MODEL")) {
+            stockStored = Gson().fromJson(intent.getStringExtra("MODEL"), StockStored::class.java)
+
+            stockSymbol.setText(stockStored!!.symbol)
+            stockName.setText(stockStored!!.name)
+            amount.setText(stockStored!!.amount.toString())
+            buyValue.setText(stockStored!!.buyValue.toString())
+            buySuggest.setText(stockStored!!.buySuggest.toString())
+            saleSuggest.setText(stockStored!!.saleSuggest.toString())
+        }
 
         stockSymbol.filters = arrayOf(InputFilter.AllCaps(), InputFilter.LengthFilter(5))
         stockSymbol.addTextChangedListener(object : TextWatcher {
@@ -62,6 +76,14 @@ class RegisterActivity : AppCompatActivity() {
             }
         })
 
+        deleteButton.setOnClickListener {
+            if (stockStored != null) {
+                storage.remove(stockStored!!.id, stockStored!!.symbol)
+                Toast.makeText(this, "Removed!", Toast.LENGTH_SHORT).show()
+                finish()
+            }
+        }
+
         saveButton.setOnClickListener {
 
             if (verifyField(stockSymbol, "Stock Code", 5, 5)
@@ -70,12 +92,16 @@ class RegisterActivity : AppCompatActivity() {
                 && verifyField(buyValue, "Buy Value", null, null)
             ) {
 
+                val id = if (stockStored != null) stockStored!!.id else Random.nextInt()
+
                 val stored = StockStored(
-                    Random.nextInt(),
-                    stockSymbol.text.toString(),
-                    stockName.text.toString(),
-                    buyValue.text.toString().toDouble(),
-                    amount.text.toString().toInt()
+                    id = id,
+                    symbol = stockSymbol.text.toString(),
+                    name = stockName.text.toString(),
+                    buyValue = buyValue.text.toString().toDouble(),
+                    amount = amount.text.toString().toInt(),
+                    buySuggest = buySuggest.text.toString().toDouble(),
+                    saleSuggest = saleSuggest.text.toString().toDouble()
                 )
 
                 storage.storeStocks(stored)

@@ -37,10 +37,11 @@ class StockViewHolderV3(view: View, val callback: (model: StockVO) -> Unit) :
 
         itemView.diffUnitPercent.setTextColor(color)
         itemView.differenceValue.setTextColor(color)
+        itemView.saleValue.setTextColor(color)
+        itemView.saleValueTotal.setTextColor(color)
 
-        itemView.container.setOnLongClickListener {
+        itemView.container.setOnClickListener {
             callback(model)
-            true
         }
     }
 }

@@ -18,7 +18,6 @@ class StorageRepository(val context: Context) {
 
         val stocks = getStocks().toMutableList()
         stocks.add(stock)
-
         storeStocks(stocks)
     }
 
